@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="com.aptana.ui.properties.ProjectNaturesPage"
+            id="com.aptana.ui.propertyPages.projectnatures"
+            name="%page.projectnatures.name">
+         <enabledWhen>
+            <and>
+               <adapt
+                     type="org.eclipse.core.resources.IProject">
+               </adapt>
+            </and>
+         </enabledWhen>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="com.aptana.ui.command.preferences"
+            name="%preferences.command.name">
+         <commandParameter
+               id="preferencePageId"
+               name="%preferences.commandParameter.name"
+               optional="false">
+         </commandParameter>
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.aptana.ui.handlers.ShowFilteredPreferencePageHandler"
+            commandId="com.aptana.ui.command.preferences">
+      </handler>
+   </extension>
+
+</plugin>

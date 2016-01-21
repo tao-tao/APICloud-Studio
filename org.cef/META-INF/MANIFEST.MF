@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Cef
+Bundle-SymbolicName: org.cef
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.cef.Activator
+Require-Bundle: org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.cef,
+ org.cef.browser,
+ org.cef.callback,
+ org.cef.handler,
+ org.cef.misc,
+ org.cef.network
