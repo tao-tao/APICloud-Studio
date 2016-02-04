@@ -1,0 +1,6 @@
+providerName = Aptana
+pluginName = Aptana Eclipse Code
+
+page.projectnatures.name = Project Natures
+preferences.command.name = Preferences
+preferences.commandParameter.name = Page ID

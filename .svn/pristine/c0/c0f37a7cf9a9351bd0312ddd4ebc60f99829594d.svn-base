@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Subversion JavaHL
+Bundle-SymbolicName: org.tigris.subversion.clientadapter.javahl;singleton:=true
+Bundle-Version: 1.8.8
+Bundle-Activator: org.tigris.subversion.clientadapter.javahl.Activator
+Bundle-Vendor: tigris.org
+Require-Bundle: org.eclipse.core.runtime,
+ org.tigris.subversion.clientadapter;bundle-version="[1.10.0,1.11.0)",
+ org.tigris.subversion.subclipse.core;bundle-version="1.10.4",
+ org.eclipse.jface;bundle-version="3.7.0",
+ org.eclipse.core.resources;bundle-version="3.7.101"
+Eclipse-LazyStart: true
+Export-Package: org.apache.subversion.javahl,
+ org.apache.subversion.javahl.callback,
+ org.tigris.subversion.clientadapter.javahl,
+ org.tigris.subversion.svnclientadapter.javahl
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ClassPath: .

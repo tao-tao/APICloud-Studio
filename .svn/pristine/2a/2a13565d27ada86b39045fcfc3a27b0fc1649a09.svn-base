@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Model
+Bundle-SymbolicName: com.apicloud.commons.model
+Bundle-Version: 1.0.0
+Bundle-Activator: com.apicloud.commons.model.Activator
+Bundle-Vendor: APICLOUD
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.apicloud.commons.util;bundle-version="1.0.0",
+ com.apicloud.commons.lib;bundle-version="1.0.0",
+ org.eclipse.debug.core;bundle-version="3.7.1",
+ org.eclipse.debug.ui;bundle-version="3.7.102"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: com.apicloud.commons.model
+Bundle-ClassPath: .

@@ -1,0 +1,9 @@
+providerName = Aptana
+pluginName = Aptana CSS Editor
+
+editor.css.name = CSS Source Editor
+hyperlinkDetector.cssclass.name = CSS Class Hyperlinks
+page.css.name = CSS
+hover.label = CSS Documentation Hover
+
+index.view.contributor.name = CSS Index View Contributors

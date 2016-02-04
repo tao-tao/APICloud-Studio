@@ -1,0 +1,23 @@
+#This is i18n file,please do not delete it!
+#Tue May 21 16:32:28 CST 2015
+Bundle-Vendor=Aptana
+Bundle-Vendor = Aptana
+Bundle-Name = Aptana\u6D4F\u89C8\u5668
+view.browser.name = \u5B9E\u65F6\u9884\u89C8
+editor.browser.name = Web\u6D4F\u89C8\u5668
+actionSet.show.browser.label = \u663E\u793AWeb\u6D4F\u89C8\u5668
+action.browser.editor.label = Web\u6D4F\u89C8\u5668\u7F16\u8F91\u5668
+sizeCategory.computer.name = \u8BA1\u7B97\u673A
+size.sxga.name = 1280 x 1024 (SXGA)
+size.xga.name = 1024 x 768 (XGA)
+size.svga.name = 800 x 600 (SVGA)
+size.vga.name = 640 x 480 (VGA)
+size.qvga.name = 320 x 240 (QVGA/HVGA)
+sizeCategory.mobile.name = \u624B\u673A
+size.iphone.name.vertical = iPhone Vertical (320 x 480)
+size.iphone.name.horizontal = iPhone Horizontal (480 x 320)
+size.htc.touchhd.name.horizontal = HTC Touch HD Vertical (480 x 800)
+size.ipad.name.vertical = iPad Vertical (768 x 1024)
+size.ipad.name.horizontal = iPad Horizontal (1024 x 768)
+size.motorola.droid2.name.vertical = Motorola Droid 2 Vertical (480 x 854)
+extension-point.browserconfiguration.name = \u914D\u7F6E\u6D4F\u89C8\u5668
