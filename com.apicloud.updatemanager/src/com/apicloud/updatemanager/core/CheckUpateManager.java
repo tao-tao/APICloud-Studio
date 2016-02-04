@@ -58,6 +58,7 @@ public class CheckUpateManager {
 	private boolean isAuto;
 	private String oUpdateUrl;
 	private String aUpdateUrl;
+//	private String snippetsUrl;
 	private String iUpdateUrl;
 	private String bUpdateUrl;
 	private String iloaderVersion;
@@ -67,6 +68,7 @@ public class CheckUpateManager {
 	private String updateType;
 	private String third_updateType;
 	private String basic_updateType;
+//	private String snippetsVersion;
 	private String ip;
 	private IDEUpdateDialog dialog;
 
@@ -109,11 +111,6 @@ public class CheckUpateManager {
 		if (thirdVersion == null || !reStart) {
 			thirdVersion = IDEUpdateModel.VERSION;
 		}
-
-		if(ip == null){
-			ip = getIp();
-		}
-
 		String message = Activator.network_instance
 				.getUpdateLoaderMsg(thirdVersion,ip);
 		JSONObject json = new JSONObject(message);
@@ -217,7 +214,7 @@ public class CheckUpateManager {
 		copyFile(new File(sourcePath), new File(targetPaht));
 
 	}
-	
+
 	private boolean isJava_32bit() {
 		Properties props = System.getProperties();
 		Iterator iter = props.keySet().iterator();
@@ -350,6 +347,16 @@ public class CheckUpateManager {
 				aUpdateUrl = result.getString("aloaderUrl");
 			} catch (JSONException e) {
 			}
+//			try {
+//				snippetsUrl = result.getString("snippetsUrl");
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			try {
+//				snippetsVersion = result.getString("snippetsVersion");
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
 			try {
 				iloaderVersion = result.getString("iloaderVersion");
 			} catch (JSONException e) {
@@ -480,11 +487,12 @@ public class CheckUpateManager {
 						String downloadPath = IDEUtil.getInstallPath()
 								+ "download/base.zip";
 						String oZipName = dropinsPath + "/oUpdate.zip";
+//						String snippetsZip = IDEUtil.getInstallPath() + "dropins/conf/snippets.zip";
+//						String snippetsPath = IDEUtil.getInstallPath() + "dropins/conf";
 						// String bZipName = dropinsPath + "/bUpdate.zip";
 						int fileSize = 1020;
 						if (bUpdateUrl != null && !"".equals(bUpdateUrl)) {
 							monitor.beginTask("Download Resource:", fileSize);
-							
 							boolean finished = DownLoadUtil.downZip1(bUpdateUrl, downloadPath,
 									new SubProgressMonitor(monitor, 1000));
 							
@@ -492,7 +500,7 @@ public class CheckUpateManager {
 								FileUtil.deleteFile(downloadPath);
 								throw new org.eclipse.core.runtime.OperationCanceledException();
 							}
-							
+
 							createVersionTxt(basicVersion,
 									IDEUtil.getInstallPath()
 											+ "download/update.txt");
@@ -553,7 +561,6 @@ public class CheckUpateManager {
 								FileUtil.deleteFile(oZipName);
 								throw new org.eclipse.core.runtime.OperationCanceledException();
 							}
-							
 							ZipUtil.unzip(oZipName, dropinsPath);
 							updateJar(dropinsPath + "/update.jar", jarPath);
 							createVersionTxt(thirdVersion,
@@ -563,6 +570,25 @@ public class CheckUpateManager {
 						} else {
 							monitor.worked(330);
 						}
+
+//						if (snippetsUrl != null && !"".equals(snippetsUrl)) {
+//							reStart = true;
+//							boolean finished = DownLoadUtil.downZip1(snippetsUrl, snippetsZip,
+//									new SubProgressMonitor(monitor, 300));
+//							if (finished == false) {
+//								FileUtil.deleteFile(snippetsZip);
+//								throw new org.eclipse.core.runtime.OperationCanceledException();
+//							}
+//							ZipUtil.unzip(snippetsZip, snippetsPath);
+//							updateJar(dropinsPath + "/update.jar", jarPath);
+//							createVersionTxt(snippetsVersion,
+//									IDEUtil.getInstallPath()
+//											+ "download/snippets-version.txt");
+//							monitor.worked(30);
+//						} else {
+//							monitor.worked(330);
+//						}
+
 						refreshBundleInfo(
 								dropinsPath + "/bundles.info",
 								IDEUtil.getInstallPath()
@@ -632,6 +658,7 @@ public class CheckUpateManager {
 									oUpdateUrl = null;
 									iUpdateUrl = null;
 									aUpdateUrl = null;
+//									snippetsUrl = null;
 									MessageDialog.openInformation(null,
 											Messages.FINISH,
 											Messages.UPDATEFINISHED);
@@ -643,6 +670,7 @@ public class CheckUpateManager {
 						oUpdateUrl = null;
 						iUpdateUrl = null;
 						aUpdateUrl = null;
+//						snippetsUrl = null;
 						Display.getDefault().syncExec(new Runnable() {
 							public void run() {
 								if (MessageDialog.openConfirm(null,

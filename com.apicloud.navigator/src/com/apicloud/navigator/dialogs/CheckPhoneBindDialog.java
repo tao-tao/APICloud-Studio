@@ -10,6 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -26,11 +27,11 @@ public class CheckPhoneBindDialog<K, V> extends Dialog {
 
 	public CheckPhoneBindDialog(Shell parentShell) {
 		super(parentShell);
-		// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„æž„é€ å‡½æ•°å­˜æ ¹
+		// TODO 自动生成的构造函数存根
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {
-		super.createButton(parent, IDialogConstants.OK_ID, "ç¡®å®š", true);
+		super.createButton(parent, IDialogConstants.OK_ID, "\u786E\u5B9A", true);
 	}
 	
 	protected Point getInitialSize() {
@@ -72,7 +73,7 @@ public class CheckPhoneBindDialog<K, V> extends Dialog {
 
 	@Override
 	protected Button getButton(int id) {
-		// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„æ–¹æ³•å­˜æ ¹
+		// TODO 自动生成的方法存根
 		return super.getButton(id);
 	}
 
@@ -105,7 +106,7 @@ public class CheckPhoneBindDialog<K, V> extends Dialog {
 		container.setLayout(new GridLayout(1, false));
 		container.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, true, true, 1, 1));
 		Link link = new Link(container, SWT.NORMAL);
-		link.setText("ä¸ºäº†åŠ å¼ºæ‚¨çš„è´¦æˆ·å®‰å…¨ï¼Œè¯·ç™»å½•<A>http://www.apicloud.com/profile</A>åŽ»ç»‘å®šæ‰‹æœºå�·ç �ï¼�");
+		link.setText("\u4E3A\u4E86\u52A0\u5F3A\u60A8\u7684\u8D26\u6237\u5B89\u5168\uFF0C\u8BF7\u767B\u5F55<A>http://www.apicloud.com/profile</A>\u53BB\u7ED1\u5B9A\u624B\u673A\u53F7\u7801!");
 		link.addListener (SWT.Selection, new Listener () {
 			@Override
 			public void handleEvent(Event event) {

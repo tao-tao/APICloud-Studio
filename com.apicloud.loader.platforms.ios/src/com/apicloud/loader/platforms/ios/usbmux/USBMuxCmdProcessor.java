@@ -74,14 +74,14 @@ public final class USBMuxCmdProcessor {
 				return true;
 			String pythonCmd = ANBActivator.getToolsPath()+"\\python.exe";
 			commands_tcprelay.add(pythonCmd);
+			commands_tcprelay.add(ANBActivator.getToolsPath()+"\\tcprelay.py");
 		} else {  /*Mac OS X*/
 			if (findProcess("python"))
 				return true;
 			commands_tcprelay.add("/usr/bin/python");
+			commands_tcprelay.add(ANBActivator.getToolsPath()+"/tcprelay.py");
 		}
-		
-		
-		commands_tcprelay.add(ANBActivator.getToolsPath()+"\\tcprelay.py");
+				
 		commands_tcprelay.add("-t");
 		commands_tcprelay.add("80:"+lport);
 	 	

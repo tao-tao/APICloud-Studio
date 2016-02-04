@@ -39,6 +39,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.eclipse.core.runtime.OperationCanceledException;
 
 import com.apicloud.authentication.AuthenticActivator;
 import com.apicloud.commons.model.Config;
@@ -252,17 +253,25 @@ public class CustomLoaderAction implements IObjectActionDelegate {
 											+ "/apploadertemp/" + id
 											+ "/load.ipa";
 
-									DownLoadUtil
+									boolean finished = DownLoadUtil
 											.downZip1(apkPath,
 													apkpath,// 下载路径需要修改为/apploder/appid/load.apk
 													new SubProgressMonitor(
 															monitor, 25));
+									if (finished == false) {
+										FileUtil.deleteFile(apkpath);
+										throw new OperationCanceledException();
+									}
 									monitor.subTask("\u4E0B\u8F7DIOS Loader\u4E2D...");
 
-									DownLoadUtil
+									finished = DownLoadUtil
 											.downZip1(ipaPath, ipapath,
 													new SubProgressMonitor(
 															monitor, 25));
+									if (finished == false) {
+										FileUtil.deleteFile(ipapath);
+										throw new OperationCanceledException();
+									}
 
 									String tempapkfilePath = IDEUtil
 											.getInstallPath()
@@ -299,17 +308,25 @@ public class CustomLoaderAction implements IObjectActionDelegate {
 
 								else {
 
-									DownLoadUtil
+									boolean finished = DownLoadUtil
 											.downZip1(apkPath,
 													apkpath,// 下载路径需要修改为/apploder/appid/load.apk
 													new SubProgressMonitor(
 															monitor, 25));
+									if (finished == false) {
+										FileUtil.deleteFile(apkpath);
+										throw new OperationCanceledException();
+									}
 									monitor.subTask("\u4E0B\u8F7DIOS Loader\u4E2D...");
 
-									DownLoadUtil
+									finished = DownLoadUtil
 											.downZip1(ipaPath, ipapath,
 													new SubProgressMonitor(
 															monitor, 25));
+									if (finished == false) {
+										FileUtil.deleteFile(ipapath);
+										throw new OperationCanceledException();
+									}
 								}
 
 								saveApploaderInfo();
@@ -346,6 +363,8 @@ public class CustomLoaderAction implements IObjectActionDelegate {
 					monitor.done();
 				} catch (UnsupportedEncodingException e) {
 					return closeAndShowMessage(Messages.SERVICEBUSYERROR);
+				} catch (OperationCanceledException e) {
+					return closeAndShowMessage(Messages.DOWNLOADERROR);
 				} catch (JSONException e1) {
 					return closeAndShowMessage(Messages.DATAANALYERROR);
 				} catch (IOException e) {

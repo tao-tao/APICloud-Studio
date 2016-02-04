@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.contentassist.ICompletionProposalExtension5;
+import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 
 import com.aptana.editor.common.contentassist.CommonCompletionProposal;
@@ -17,8 +18,15 @@ public class PropertyElementProposal extends CommonCompletionProposal implements
 
 	public PropertyElementProposal(PropertyElement property, int offset, int replaceLength, URI uri)
 	{
-		super(property.getName(), offset, replaceLength, property.getName().length(), null, property.getName(), null,
+		super(property.getName(), offset, replaceLength, property.getName().length(), null, property.getName(), null, null,
 				null);
+		this.property = property;
+		this.uri = uri;
+	}
+
+	public PropertyElementProposal(PropertyElement property, URI uri, String replacementString, int replacementOffset, int replacementLength, int cursorPosition, Image image, String displayString, IContextInformation contextInformation, String additionalProposalInfo)
+	{
+		super(replacementString, replacementOffset, replacementLength, cursorPosition, image, displayString, null, contextInformation, additionalProposalInfo);
 		this.property = property;
 		this.uri = uri;
 	}

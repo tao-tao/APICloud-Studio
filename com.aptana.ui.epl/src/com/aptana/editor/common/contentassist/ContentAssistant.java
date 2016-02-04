@@ -13,8 +13,11 @@ package com.aptana.editor.common.contentassist;
  * available at http://www.eclipse.org/legal/epl-v10.html Contributors: IBM Corporation - initial API and implementation
  **********************************************************************************************************************/
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -1141,6 +1144,7 @@ public class ContentAssistant implements IContentAssistant, IContentAssistantExt
 	private InternalListener fInternalListener;
 	private CompletionProposalPopup fProposalPopup;
 	private ContextInformationPopup fContextInfoPopup;
+	private List<File> locationTypeFolders = new ArrayList<File>();
 
 	private int fUserAgentColumnCount;
 
@@ -1678,7 +1682,6 @@ public class ContentAssistant implements IContentAssistant, IContentAssistantExt
 	 */
 	protected void install()
 	{
-
 		fLayoutManager = new LayoutManager();
 		fInternalListener = new InternalListener();
 

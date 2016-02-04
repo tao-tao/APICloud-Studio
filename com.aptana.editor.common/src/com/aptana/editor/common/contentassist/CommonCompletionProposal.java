@@ -7,22 +7,36 @@
  */
 package com.aptana.editor.common.contentassist;
 
+import java.util.Map;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IInformationControlCreator;
 import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.ICompletionProposalExtension;
 import org.eclipse.jface.text.contentassist.ICompletionProposalExtension2;
 import org.eclipse.jface.text.contentassist.ICompletionProposalExtension3;
 import org.eclipse.jface.text.contentassist.IContextInformation;
+import org.eclipse.jface.text.formatter.FormattingContext;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.text.edits.TextEdit;
 
 import com.aptana.core.util.ObjectUtil;
 import com.aptana.core.util.StringUtil;
+import com.aptana.formatter.IScriptFormatter;
+import com.aptana.formatter.IScriptFormatterFactory;
+import com.aptana.formatter.ScriptFormatterManager;
+import com.aptana.formatter.preferences.PreferencesLookupDelegate;
 import com.aptana.parsing.lexer.IRange;
 import com.aptana.parsing.lexer.Range;
 
@@ -39,6 +53,8 @@ public class CommonCompletionProposal implements ICommonCompletionProposal, ICom
 	protected String _additionalProposalInformation;
 	protected String _fileLocation;
 	private int _hash;
+
+	private IProject project;
 	
 	private Image[] _userAgentImages;
 	private char[] _triggerChars;
@@ -63,7 +79,7 @@ public class CommonCompletionProposal implements ICommonCompletionProposal, ICom
 	 * @param additionalProposalInfo
 	 */
 	public CommonCompletionProposal(String replacementString, int replacementOffset, int replacementLength,
-			int cursorPosition, Image image, String displayString, IContextInformation contextInformation,
+			int cursorPosition, Image image, String displayString, IProject project, IContextInformation contextInformation,
 			String additionalProposalInfo)
 	{
 		this._replacementString = (replacementString == null) ? StringUtil.EMPTY : replacementString;
@@ -74,6 +90,7 @@ public class CommonCompletionProposal implements ICommonCompletionProposal, ICom
 		this._displayString = (displayString == null) ? StringUtil.EMPTY : displayString;
 		this._contextInformation = contextInformation;
 		this._additionalProposalInformation = additionalProposalInfo;
+		this.project = project;
 	}
 
 	/*
@@ -247,6 +264,13 @@ public class CommonCompletionProposal implements ICommonCompletionProposal, ICom
 		this._fileLocation = location;
 	}
 
+	public void setProject(IProject project){
+		this.project = project;
+	}
+
+	public IProject getProject() {
+		return this.project;
+	}
 	/**
 	 * setIsDefaultSelection
 	 * 
@@ -298,13 +322,58 @@ public class CommonCompletionProposal implements ICommonCompletionProposal, ICom
 	{
 		IDocument document = viewer.getDocument();
 		String prefix = getPrefix(document, offset);
+
 		try
 		{
-			document.replace(offset-prefix.length(), prefix.length(), _replacementString);
+			document.replace(offset - prefix.length(), prefix.length(), _replacementString);
+
+			final IPath path = Path.fromOSString(this.getFileLocation());
+			final IContentType contentType = Platform.getContentTypeManager().findContentTypeFor(path.lastSegment());
+
+			if(contentType !=null && contentType.getName().equals("HTML")){
+				final String type = document.getContentType(offset - prefix.length());
+
+				if(type.equals("__js__dftl_partition_content_type")){
+					final IContentType contentType1 = Platform.getContentTypeManager().findContentTypeFor(".js");
+
+					commonProposalFormat(offset, document, prefix, contentType1);
+				}
+			}
+
+			if(contentType != null && contentType.getName().equals("JavaScript"))
+			{
+				commonProposalFormat(offset, document, prefix, contentType);
+			}
 		}
-		catch (BadLocationException x)
+		catch (Exception e)
 		{
-			// ignore
+			e.printStackTrace();
+		}
+	}
+
+	private void commonProposalFormat(int offset, IDocument document, String prefix, IContentType contentType){
+		try{
+			IScriptFormatterFactory factory = ScriptFormatterManager.getSelected(contentType.getId());
+			final String lineDelimiter = TextUtilities.getDefaultLineDelimiter(document);
+			IProject project = getProject();
+			Map<String, String> preferences = factory.retrievePreferences(new PreferencesLookupDelegate(project));
+			final IScriptFormatter formatter = factory.createFormatter(lineDelimiter, preferences);
+			final FormattingContext context= new FormattingContext();
+			final int indentationLevel = formatter.detectIndentationLevel(document, offset - prefix.length(), true, context);
+//			FindReplaceDocumentAdapter adapter = new FindReplaceDocumentAdapter(document);
+//			IRegion start = adapter.find(offset - prefix.length(), ">", false, true, false, true);
+//			int startOffset = start.getOffset() + 2;
+//			IRegion end = adapter.find(offset, "</script>", true, true, false, true);
+			final TextEdit edit = formatter.format(document.get(), offset- prefix.length(), _replacementString.length(), indentationLevel, true, context, lineDelimiter);
+			edit.apply(document);
+
+			if (edit.getLength() > 0) {
+				this.set_cursorPosition(edit.getLength() - 1);
+				int lastLine = document.getLineOfOffset(edit.getExclusiveEnd());
+				document.replace(edit.getExclusiveEnd(), document.getLineLength(lastLine), "");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 
@@ -521,5 +590,13 @@ public class CommonCompletionProposal implements ICommonCompletionProposal, ICom
 	public String toString()
 	{
 		return getDisplayString();
+	}
+
+	public int get_cursorPosition() {
+		return _cursorPosition;
+	}
+
+	public void set_cursorPosition(int _cursorPosition) {
+		this._cursorPosition = _cursorPosition;
 	}
 }

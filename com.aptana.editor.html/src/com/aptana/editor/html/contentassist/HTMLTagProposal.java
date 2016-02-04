@@ -51,7 +51,7 @@ class HTMLTagProposal extends CommonCompletionProposal
 			IProject project, Integer... positions)
 	{
 		super(replacementString, replacementOffset, replacementLength, positions[0],
-				HTMLContentAssistProcessor.ELEMENT_ICON, element.getName(), null, element.getDescription());
+				HTMLContentAssistProcessor.ELEMENT_ICON, element.getName(), null, null, element.getDescription());
 		setFileLocation(IHTMLIndexConstants.CORE);
 
 		List<String> userAgentList = element.getUserAgentNames();

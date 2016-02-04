@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.PerformanceStats;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
@@ -295,7 +296,7 @@ public class CommonContentAssistProcessor implements IContentAssistProcessor, IC
 			}
 			// build proposal
 			CommonCompletionProposal proposal = new CommonCompletionProposal(name, offset, replaceLength, length,
-					image, displayName, contextInfo, description);
+					image, displayName, null, contextInfo, description);
 			if (location != null)
 			{
 				proposal.setFileLocation(location);
@@ -414,7 +415,8 @@ public class CommonContentAssistProcessor implements IContentAssistProcessor, IC
 
 			Collection<ICompletionProposal> proposals = CollectionsUtil.union(rubleProposals, snippetProposals);
 
-			ICompletionProposal[] others = this.doComputeCompletionProposals(viewer, offset, activationChar, autoActivated);
+			ICompletionProposal[] others = this.doComputeCompletionProposals(viewer, offset, activationChar,
+					autoActivated);
 
 			// create empty array to simplify logic
 			if (others == null)
@@ -590,6 +592,9 @@ public class CommonContentAssistProcessor implements IContentAssistProcessor, IC
 		return editor.getEditorInput().getName();
 	}
 
+	public String getFilePath(){
+		return getURI().getRawPath();
+	}
 	/**
 	 * getIndex
 	 * 

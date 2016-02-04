@@ -17,10 +17,10 @@ import org.json.JSONException;
 
 import com.apicloud.updatemanager.Messages;
 
-public class DownLoadJob extends WorkspaceJob {
+public class DownloadJob extends WorkspaceJob {
 	
 	private int id;
-	public DownLoadJob(String name,int id) {
+	public DownloadJob(String name,int id) {
 		super(name);
 		this.id=id;
 		setName(Messages.DOWNLOADOFFLOADER);

@@ -46,7 +46,7 @@ public class XMLTagProposal extends CommonCompletionProposal
 			Integer... positions)
 	{
 		super(replacementString, replacementOffset, replacementLength, positions[0],
-				XMLContentAssistProcessor.ELEMENT_ICON, element.getName(), null, element.getDescription());
+				XMLContentAssistProcessor.ELEMENT_ICON, element.getName(), null, null, element.getDescription());
 		setFileLocation(IXMLIndexConstants.CORE);
 
 		this._positions = positions;

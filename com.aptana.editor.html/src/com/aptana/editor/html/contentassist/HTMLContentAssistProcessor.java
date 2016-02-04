@@ -89,7 +89,7 @@ public class HTMLContentAssistProcessor extends CommonContentAssistProcessor
 				boolean isDirectory, Image[] userAgentIcons)
 		{
 			super(replacementString, replacementOffset, replacementLength, replacementString.length(), null,
-					replacementString, null, null);
+					replacementString, null,null, null);
 			this.isDirectory = isDirectory;
 			if (isDirectory)
 			{
@@ -1173,7 +1173,7 @@ public class HTMLContentAssistProcessor extends CommonContentAssistProcessor
 		int cursorPosition = replaceString.length();
 
 		CommonCompletionProposal proposal = new CommonCompletionProposal(replaceString, replaceOffset, replaceLength,
-				cursorPosition, ELEMENT_ICON, "/" + element.getName(), null, element.getDescription()); //$NON-NLS-1$
+				cursorPosition, ELEMENT_ICON, "/" + element.getName(), this.getProject(), null, element.getDescription()); //$NON-NLS-1$
 
 		proposal.setFileLocation(IHTMLIndexConstants.CORE);
 		proposal.setUserAgentImages(userAgentIcons);
@@ -1266,7 +1266,7 @@ public class HTMLContentAssistProcessor extends CommonContentAssistProcessor
 
 		// build proposal
 		CommonCompletionProposal proposal = new CommonCompletionProposal(name, offset, replaceLength, length, image,
-				displayName, contextInfo, description);
+				displayName, this.getProject(), contextInfo, description);
 		proposal.setFileLocation(fileLocation);
 		proposal.setUserAgentImages(userAgents);
 		return proposal;

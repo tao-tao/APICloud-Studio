@@ -31,6 +31,7 @@ public enum LocationType
 	IN_OBJECT_LITERAL_PROPERTY,
 	API,
 	$API,
-	IN_THIS;
+	IN_THIS,
+	API_REQUIRE;
 	// @formatter:on
 }

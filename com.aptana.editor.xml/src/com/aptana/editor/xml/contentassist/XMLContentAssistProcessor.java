@@ -499,7 +499,7 @@ public class XMLContentAssistProcessor extends CommonContentAssistProcessor
 		int cursorPosition = replaceString.length();
 		int replaceLength = 0;
 		CommonCompletionProposal proposal = new CommonCompletionProposal(replaceString, offset, replaceLength,
-				cursorPosition, ELEMENT_ICON, element.getName(), null, element.getDescription());
+				cursorPosition, ELEMENT_ICON, element.getName(), this.getProject(), null, element.getDescription());
 
 		proposal.setFileLocation(this.getCoreLocation());
 
@@ -576,7 +576,7 @@ public class XMLContentAssistProcessor extends CommonContentAssistProcessor
 
 		// build proposal
 		CommonCompletionProposal proposal = new CommonCompletionProposal(name, offset, replaceLength, length, image,
-				displayName, contextInfo, description);
+				displayName, this.getProject(), contextInfo, description);
 		proposal.setFileLocation(fileLocation);
 		proposal.setUserAgentImages(userAgents);
 		proposal.setTriggerCharacters(getProposalTriggerCharacters());

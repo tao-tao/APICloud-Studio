@@ -583,8 +583,7 @@ public class CompletionProposalPopup implements IContentAssistListener
 
 		return getErrorMessage();
 	}
-	
-	
+
 	public String showProposals1(boolean isAutoActivated, final boolean reContentAssist, final String per, final int fInvocationOffset)
 	{
 		final boolean autoActivated = (isAutoActivated) || (reContentAssist);
@@ -838,7 +837,6 @@ public class CompletionProposalPopup implements IContentAssistListener
 		
 		try
 		{
-
 			IDocument document = fContentAssistSubjectControlAdapter.getDocument();
 
 			if (fViewer instanceof ITextViewerExtension)
@@ -1429,20 +1427,19 @@ public class CompletionProposalPopup implements IContentAssistListener
 			return false;
 		}
 
-		if(key <= 'Z' && key >= 'A' || key <= 'z' && key >= 'a' || key == '-') {
+		if(key <= 'Z' && key >= 'A' || key <= 'z' && key >= 'a' || key == '-' || key == '.') {
 			bufferString = bufferString + key;
 			show(true, true, String.valueOf(key));
 			return true;
 		}
-		if( key == '.') {
-			hide();
-			bufferString = bufferString + key;
-
-			fInvocationOffset += header.length();
-			showProposals1(true, true, ".", fInvocationOffset);
-			return true;
-		}
-		
+//		if( key == '.') {
+////			hide();
+//			bufferString = bufferString + key;
+//
+//			fInvocationOffset += header.length();
+//			showProposals1(true, true, ".", fInvocationOffset);
+//			return true;
+//		}
 		if(e.keyCode == 8) {
 				hide();
 				return true;
@@ -1640,7 +1637,7 @@ public class CompletionProposalPopup implements IContentAssistListener
 				int offset = fContentAssistSubjectControlAdapter.getSelectedRange().x;
 				if (fInvocationOffset > offset)
 				{
-					hide();
+//					hide();
 				}
 				ICompletionProposal[] proposals = null;
 				try
@@ -1766,7 +1763,6 @@ public class CompletionProposalPopup implements IContentAssistListener
 				{
 					filtered.add(proposal);
 				}
-
 			}
 			else if (proposal instanceof ICompletionProposalExtension)
 			{
@@ -1778,7 +1774,6 @@ public class CompletionProposalPopup implements IContentAssistListener
 				}
 			}
 		}
-
 
 		return filtered.toArray(new ICompletionProposal[filtered.size()]);
 	}
@@ -1825,7 +1820,6 @@ public class CompletionProposalPopup implements IContentAssistListener
 		List<ICompletionProposal> list = new ArrayList<ICompletionProposal>();
 		
 		for(ICompletionProposal p : proposals) {
-
 			if(p.getDisplayString().toLowerCase().startsWith(header.toLowerCase())) {
 				list.add(p);
 			}
@@ -1853,21 +1847,31 @@ public class CompletionProposalPopup implements IContentAssistListener
 		{
 			prefix = document.get(offset-2, 1);
 			int num = 1;
-			while(true){
-				prefix = document.get(offset-num, 1);
+			while(true)
+			{
+				if(offset>=num){
+					prefix = document.get(offset - num, 1);
+				}else{
+					break;
+				}
+
 				if(type.equals("html") && prefix.equals(".")|| prefix.equals(">") || prefix.equals("\t") || prefix.equals(" ")|| prefix.equals("\n")
 						|| prefix.equals("\r") || prefix.equals(";")|| prefix.equals("}")) {
 					break;
 				}
-				if(type.equals("js") && prefix.equals(".")|| prefix.equals(">") || prefix.equals("\t") || prefix.equals(" ")|| prefix.equals("\n")
-						|| prefix.equals("\r") || prefix.equals(";")|| prefix.equals("}")) {
+				if(type.equals("js") && (prefix.equals(">")
+						|| prefix.equals("\t")
+						|| prefix.equals(" ")
+						|| prefix.equals("\n")
+						|| prefix.equals("\r")
+						|| (prefix.matches("\\W") && !prefix.equals(".") && !prefix.equals("$")))) {
 					break;
 				}
 				if(type.equals("css") &&  prefix.equals(">") || prefix.equals("\t") || prefix.equals(" ")|| prefix.equals("\n")
 						|| prefix.equals("\r") || prefix.equals(";")|| prefix.equals("}")) {
 					break;
 				}
-				if(type.equals("default") && prefix.equals(".")|| prefix.equals(">") || prefix.equals("\t") || prefix.equals(" ")|| prefix.equals("\n")
+				if(type.equals("default") && prefix.equals(">") || prefix.equals("\t") || prefix.equals(" ")|| prefix.equals("\n")
 						|| prefix.equals("\r") || prefix.equals(";")|| prefix.equals("}")) {
 					break;
 				}
@@ -1876,6 +1880,7 @@ public class CompletionProposalPopup implements IContentAssistListener
 				}
 				num++;
 			}
+
 			prefix = document.get(offset-num+1, num-1).trim();
 			if(prefix.contains("<") || prefix.contains("\"") ) {
 				prefix = prefix.substring(1);

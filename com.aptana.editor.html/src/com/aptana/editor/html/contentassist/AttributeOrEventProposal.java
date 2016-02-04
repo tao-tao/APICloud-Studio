@@ -29,7 +29,7 @@ abstract class AttributeOrEventProposal extends CommonCompletionProposal
 	protected AttributeOrEventProposal(String displayName, String description, Image icon, String replaceString,
 			Image[] userAgentIcons, int offset, int length, int[] positions)
 	{
-		super(replaceString, offset, length, positions[0], icon, displayName, null, description);
+		super(replaceString, offset, length, positions[0], icon, displayName, null, null, description);
 		setFileLocation(IHTMLIndexConstants.CORE);
 		setUserAgentImages(userAgentIcons);
 		this._positions = positions;

@@ -40,7 +40,7 @@ import org.eclipse.ui.ide.IDE;
 import com.apicloud.updatemanager.Activator;
 import com.apicloud.updatemanager.Messages;
 import com.apicloud.updatemanager.core.CustomLoaderAction;
-import com.apicloud.updatemanager.core.DownLoadJob;
+import com.apicloud.updatemanager.core.DownloadJob;
 
 public class CheckLoaderDialog extends Dialog {
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
@@ -211,7 +211,7 @@ public class CheckLoaderDialog extends Dialog {
 
 	public void downloadBaseloader(final Shell shell, int id) {
 		try {
-			DownLoadJob downloadjob = new DownLoadJob(Messages.DOWNLOADOFFICIALLOADER, id);
+			DownloadJob downloadjob = new DownloadJob(Messages.DOWNLOADOFFICIALLOADER, id);
 			downloadjob.setUser(true);
 			downloadjob.schedule();
 

@@ -143,7 +143,7 @@ public class IDEUpdateDialog extends TitleAreaDialog {
 		setMessage("1.0.8");
 		super.buttonPressed(buttonId);
 	}
-	
+
 	public IDEUpdateModel getModel() {
 		return model;
 	}

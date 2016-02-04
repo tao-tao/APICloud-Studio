@@ -29,7 +29,7 @@ class XMLAttributeProposal extends CommonCompletionProposal
 	XMLAttributeProposal(AttributeElement attribute, String replaceString, int offset, int length, int[] positions)
 	{
 		super(replaceString, offset, length, positions[0], XMLContentAssistProcessor.ATTRIBUTE_ICON, attribute
-				.getName(), null, attribute.getDescription());
+				.getName(), null, null, attribute.getDescription());
 		setFileLocation(IXMLIndexConstants.CORE);
 		this._positions = positions;
 	}

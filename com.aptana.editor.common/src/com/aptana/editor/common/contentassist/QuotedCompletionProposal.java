@@ -29,7 +29,7 @@ public class QuotedCompletionProposal extends CommonCompletionProposal
 	public QuotedCompletionProposal(String name, String description, String location, IRange range, Image image,
 			Image[] userAgents, boolean addleading, boolean addTrailing)
 	{
-		super(name, range.getStartingOffset(), range.getLength(), name.length(), image, name, null, description);
+		super(name, range.getStartingOffset(), range.getLength(), name.length(), image, name, null, null, description);
 		setFileLocation(location);
 		setUserAgentImages(userAgents);
 		this.addLeading = addleading;

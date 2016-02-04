@@ -708,7 +708,7 @@ public class CSSContentAssistProcessor extends CommonContentAssistProcessor
 		Image[] userAgents = UserAgentManager.getInstance().getUserAgentImages(getProject(), userAgentIds);
 
 		CommonCompletionProposal proposal = new CommonCompletionProposal(name, offset, replaceLength, length, image,
-				displayName, contextInfo, description);
+				displayName, this.getProject(), contextInfo, description);
 		proposal.setFileLocation(fileLocation);
 		proposal.setUserAgentImages(userAgents);
 		proposal.setTriggerCharacters(getProposalTriggerCharacters());

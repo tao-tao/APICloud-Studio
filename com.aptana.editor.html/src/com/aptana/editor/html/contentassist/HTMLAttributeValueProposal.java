@@ -26,7 +26,7 @@ public class HTMLAttributeValueProposal extends CommonCompletionProposal
 	public HTMLAttributeValueProposal(ValueElement value, IRange range, Image[] userAgents)
 	{
 		super(value.getName(), range.getStartingOffset(), range.getLength(), value.getName().length(), ATTRIBUTE_ICON,
-				value.getName(), null, value.getDescription());
+				value.getName(), null, null, value.getDescription());
 		setFileLocation(IHTMLIndexConstants.CORE);
 		setUserAgentImages(userAgents);
 	}

@@ -48,13 +48,13 @@ public class ADBCmdOutputParser {
 			if (theInput.contains("app3c")) {
 				if (theInput.charAt(0) == 'I') {
 					log = theInput.substring(index);
-					ScriptLogger.logInfo(log);
+					ScriptLogger.logInfo("[Android log] "+log);
 				} else if (theInput.charAt(0) == 'E') {
 					log = theInput.substring(index);
-					ScriptLogger.logError(log);
+					ScriptLogger.logError("[Android log] "+log);
 				} else if (theInput.charAt(0) == 'W') {
 					log = theInput.substring(index);
-					ScriptLogger.logWarning(log);
+					ScriptLogger.logWarning("[Android log] "+log);
 				}
 				System.out.println(log);
 			}

@@ -38,7 +38,7 @@ public class ANBImplement implements MDLibrary.am_device_notification_callback {
 	
 	private MDLibrary.afc_connection.ByReference m_afcConnection;
 	private Map<String, MDLibrary.afc_connection.ByReference> m_connectionMap = new HashMap<String, MDLibrary.afc_connection.ByReference>();
-	
+
 	public void listen() {
 		log.info("start listenning...");
 		MDLibrary.am_device_notification.ByReference[] cb = new MDLibrary.am_device_notification.ByReference[1];
@@ -47,7 +47,7 @@ public class ANBImplement implements MDLibrary.am_device_notification_callback {
 			cfLib.CFRunLoopRun();
 		}
 	}
-	
+
 	public void invoke(MDLibrary.am_device_notification_callback_info info, Pointer arg) {
 		if (info.msg == 1) {
 			if (this.connect(info.dev)) {

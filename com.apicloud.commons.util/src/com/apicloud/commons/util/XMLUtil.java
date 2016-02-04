@@ -24,18 +24,30 @@ import org.dom4j.io.XMLWriter;
 @SuppressWarnings("unchecked")
 public final class XMLUtil {
 
-    private XMLUtil() {
+    /**
+     * 创建一个空的XML文档
+     * @return
+     */
+    public static Document createDocument() {
+        // 使用DocumentHelper.createDocument方法建立一个文档实例
+        return DocumentHelper.createDocument();
     }
 
-    /**
-     * 读取XML文件
-     * @param filePath 文件路径
-     * @return
-     * @throws DocumentException
-     */
-    public static Document loadXmlFile(String filePath) throws DocumentException {
-        return loadXmlFile(new File(filePath));
-    }
+    public static String formatXml(String str) throws Exception {
+		  Document document = null;
+		  document = DocumentHelper.parseText(str.trim());
+		  // 格式化输出格式
+		  OutputFormat format = OutputFormat.createPrettyPrint();
+		  format.setEncoding("UTF-8");
+		  StringWriter writer = new StringWriter();
+		  // 格式化输出流
+		  XMLWriter xmlWriter = new XMLWriter(writer, format);
+		  // 将document写入到输出流
+		  xmlWriter.write(document);
+		  xmlWriter.close();
+
+		  return writer.toString();
+		 }
 
     /**
      * 读取XML文件
@@ -61,14 +73,92 @@ public final class XMLUtil {
     }
 
     /**
-     * 写XML文件
+     * 读取XML文件
      * @param filePath 文件路径
-     * @param document XML对象
      * @return
-     * @throws IOException
+     * @throws DocumentException
      */
-    public static boolean saveXml(String filePath, Document document) throws IOException {
-        return saveXml(new File(filePath), document);
+    public static Document loadXmlFile(String filePath) throws DocumentException {
+        return loadXmlFile(new File(filePath));
+    }
+
+    public static void main(String[] args) throws IOException {
+        Document document = testCreateXMLFile();
+        String filePath = "d:/temp/test_create.xml";
+        saveXml(filePath, document);
+
+        document = testModifyXMLFile(filePath);
+        String modifyPath = "d:/temp/test_modify.xml";
+        saveXml(modifyPath, document);
+
+        // 读取xml文档
+        Document doc;
+        try {
+            doc = loadXmlFile(filePath);
+            List<Element> listEl = doc.getRootElement().elements();
+
+            print(listEl);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void parseXML(String searchName, Element element, List results) throws Exception{
+
+		if (element != null && !element.elements().isEmpty()) {
+			for (Iterator it = element.elements().iterator(); it.hasNext();) {
+				Object child = it.next();
+
+				if (child instanceof Element) {
+					Element ele = (Element) child;
+
+					if (ele != null && !ele.elements().isEmpty()) {
+						List cache = results;
+
+						parseXML(searchName, ele, results);
+
+						if (results.size() == cache.size()) {
+							continue;
+						}
+					} else if (ele.getName().equals(searchName)) {
+						results.add(ele);
+					} else {
+						continue;
+					}
+				}
+			}
+		}
+	}
+
+    private static void print(List<Element> els) {
+        for (Element el : els) {
+            if (el.hasContent()) {
+                print(el.elements());
+            }
+        }
+    }
+
+    public static String readFileByLines(File file) {
+		 String string = ""; //$NON-NLS-1$
+		 BufferedReader reader = null;
+         try {
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8")); //$NON-NLS-1$
+            String tempString = null;
+            while ((tempString = reader.readLine()) != null) {
+               string += tempString;
+            }
+            reader.close();
+         } catch (IOException e) {
+        		e.printStackTrace();
+         } finally {
+        	 if (reader != null) {
+        		 try {
+                    reader.close();
+                 } catch (IOException e1) {
+                }
+            }
+        }
+        return string;
     }
 
     /**
@@ -83,19 +173,6 @@ public final class XMLUtil {
         format.setEncoding("UTF-8"); // 设置UTF-8编码
         return saveXml(file, document, format);
     }
-
-    /**
-     * 写XML文件
-     * @param filePath 文件路径
-     * @param document XML对象
-     * @param format XML输出格式
-     * @return
-     * @throws IOException
-     */
-    public static boolean saveXml(String filePath, Document document, OutputFormat format) throws IOException {
-        return saveXml(new File(filePath), document, format);
-    }
-
     /**
      * 写XML文件
      * @param file 文件
@@ -124,12 +201,26 @@ public final class XMLUtil {
     }
 
     /**
-     * 创建一个空的XML文档
+     * 写XML文件
+     * @param filePath 文件路径
+     * @param document XML对象
      * @return
+     * @throws IOException
      */
-    public static Document createDocument() {
-        // 使用DocumentHelper.createDocument方法建立一个文档实例
-        return DocumentHelper.createDocument();
+    public static boolean saveXml(String filePath, Document document) throws IOException {
+        return saveXml(new File(filePath), document);
+    }
+
+    /**
+     * 写XML文件
+     * @param filePath 文件路径
+     * @param document XML对象
+     * @param format XML输出格式
+     * @return
+     * @throws IOException
+     */
+    public static boolean saveXml(String filePath, Document document, OutputFormat format) throws IOException {
+        return saveXml(new File(filePath), document, format);
     }
 
     /**
@@ -145,14 +236,6 @@ public final class XMLUtil {
         } else {
             element.addAttribute(name, value);
         }
-    }
-    /**
-     * 设置元素的内容
-     * @param element
-     * @param value
-     */
-    public static void setText(Element element, String value) {
-        element.setText(value);
     }
 
     /**
@@ -184,7 +267,16 @@ public final class XMLUtil {
         return child;
     }
 
-    /**
+	 /**
+     * 设置元素的内容
+     * @param element
+     * @param value
+     */
+    public static void setText(Element element, String value) {
+        element.setText(value);
+    }
+	 
+	 /**
      * 创建XML文件
      * @return
      */
@@ -230,7 +322,6 @@ public final class XMLUtil {
 
         return document;
     }
-
     /**
      * 修改XML文件
      * @param fileName
@@ -282,74 +373,6 @@ public final class XMLUtil {
 
     }
 
-    /**
-     * 递归显示文档内容
-     * @param els elements数组
-     */
-    private static void print(List<Element> els) {
-        for (Element el : els) {
-            if (el.hasContent()) {
-                print(el.elements());
-            }
-        }
-    }
-
-	 public static String readFileByLines(File file) {
-		 String string = ""; //$NON-NLS-1$
-		 BufferedReader reader = null;
-         try {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"UTF-8")); //$NON-NLS-1$
-            String tempString = null;
-            while ((tempString = reader.readLine()) != null) {
-               string += tempString;
-            }
-            reader.close();
-         } catch (IOException e) {
-        		e.printStackTrace();
-         } finally {
-        	 if (reader != null) {
-        		 try {
-                    reader.close();
-                 } catch (IOException e1) {
-                }
-            }
-        }
-        return string;
-    }
-	 
-	 public static String formatXml(String str) throws Exception {
-		  Document document = null;
-		  document = DocumentHelper.parseText(str.trim());
-		  // 格式化输出格式
-		  OutputFormat format = OutputFormat.createPrettyPrint();
-		  format.setEncoding("UTF-8");
-		  StringWriter writer = new StringWriter();
-		  // 格式化输出流
-		  XMLWriter xmlWriter = new XMLWriter(writer, format);
-		  // 将document写入到输出流
-		  xmlWriter.write(document);
-		  xmlWriter.close();
-
-		  return writer.toString();
-		 }
-    public static void main(String[] args) throws IOException {
-        Document document = testCreateXMLFile();
-        String filePath = "d:/temp/test_create.xml";
-        saveXml(filePath, document);
-
-        document = testModifyXMLFile(filePath);
-        String modifyPath = "d:/temp/test_modify.xml";
-        saveXml(modifyPath, document);
-
-        // 读取xml文档
-        Document doc;
-        try {
-            doc = loadXmlFile(filePath);
-            List<Element> listEl = doc.getRootElement().elements();
-
-            print(listEl);
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
+	private XMLUtil() {
     }
 }
