@@ -1,0 +1,10 @@
+source.. = src/
+output.. = bin/
+bin.includes = META-INF/,\
+               .,\
+               plugin.xml,\
+               icons/,\
+               plugin.properties,\
+               license.html,\
+               .options
+javacDefaultEncoding.. = UTF-8

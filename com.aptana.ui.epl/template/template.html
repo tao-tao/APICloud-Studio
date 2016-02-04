@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="UTF-8">
+<head>
+	<title>APICloud</title>
+	<style type="text/css">
+    pre{
+			white-space: pre-wrap; 
+			word-wrap: break-word;
+			word-break: break-word;
+		}
+		a{display:none}
+		body{margin:0; padding:0;}
+    #detail{overflow-x: hidden;}
+		#title{
+			margin-left: 20px; 
+			overflow-x: hidden;
+			word-break: break-all;  
+			margin-top: 10px; 
+			font-size: 13px;
+		}
+    #addition{color:#999;}
+
+		ul li{
+			width: 85%;
+			float: left;
+			word-break: break-all;
+			overflow-x: hidden;
+			margin-left: 20px; 
+			margin-right: 20px; 
+			margin-top: 8px; 
+		}
+	</style>
+</head>
+<body>
+<div>
+	<h1 id="title">title</h1>
+    <ul>
+		<li id="filePos"></li>
+		<li id="addition"></li>
+    </ul>
+</div>
+</body>
+<script type="text/javascript">
+	document.oncontextmenu = function(){
+		return false;
+	};
+	document.onmousedown =  function(){
+		return false;
+	};
+	document.ondragstart = function(){
+		return false;
+	};
+	document.onselectstart = function(){
+		return false;
+	};
+	document.onbeforecopy = function(){
+		return false;
+	};
+	document.onselect = function(e){
+		document.selection.empty();
+	};
+	document.oncopy = function(e){
+		document.selection.empty();
+	};
+
+	function setHtml(el, val){
+		if(el && val){
+			el.style.display = '';
+			el.innerHTML = val;
+		}
+	}
+	function clearHtml(el){
+		if(el){
+			el.style.display = 'none';
+			el.innerHTML = '';
+		}
+	}
+
+	function setTitle(titleInfo) {
+		var el = document.getElementById("title");
+    	setHtml(el, titleInfo);
+	}
+	
+	function cleanTitle() {
+		var el = document.getElementById("title");
+	  	clearHtml(el);
+	}
+	
+	function setAddition (addition) {
+	  var el = document.getElementById("addition");
+	  setHtml(el, addition);
+	}
+	
+	function cleanAddition () {
+		 var el = document.getElementById("addition");
+	  	 clearHtml(el);
+	}
+	
+	function setLocation (location) {
+		var el = document.getElementById("filePos");
+		setHtml(el, location);
+	}
+	
+	function clearLocation () {
+		var el = document.getElementById("filePos");
+		clearHtml(el);
+	}
+	
+	function setDocFont(name,size) {
+		var el = document.getElementById("addition");
+		el.style.fontFamily = name+", Microsoft Yahei" ;
+		el.style.fontSize = size+'pt' ;
+		var el1 = document.getElementById("filePos");
+		el1.style.fontFamily = name ;
+		el1.style.fontSize = '12px' ;
+	}
+</script>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.aptana.editor.dtd.DTDEditor"
+            contributorClass="com.aptana.editor.common.CommonTextEditorActionContributor"
+            default="true"
+            extensions="dtd"
+            id="com.aptana.editor.dtd"
+            icon="icons/dtd.png"
+            name="%editor.name">
+         <contentTypeBinding
+               contentTypeId="com.aptana.contenttype.dtd">
+         </contentTypeBinding>
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.compare.contentMergeViewers">
+      <contentTypeBinding
+            contentMergeViewerId="com.aptana.editor.dtd.contentMergeViewer"
+            contentTypeId="com.aptana.contenttype.dtd">
+      </contentTypeBinding>
+      <viewer
+            class="com.aptana.editor.dtd.internal.DTDMergeViewerCreator"
+            extensions="dtd"
+            id="com.aptana.editor.dtd.contentMergeViewer">
+      </viewer>
+   </extension>
+
+</plugin>
